@@ -36,7 +36,9 @@ Alice wants to buy something from Caroline for 100 mBTC, Alice open a payment ch
 
 To make a succesfully payment between Alice and Caroline they use a HTLC in the following manner.
 - Caroline generates a random hash "H" with help the of any message "M". Caroline gives that hash to Alice.
-
+````
+H = Hashing(M) 
+````
 ![](C:/Users/HP/Desktop/caroin.png)
 - Whereas Alice added hash given by caroline and make payment of 100 mBTC to bob (In order for bob to claim the payment, he needs the message which was used to produce that hash).
 
@@ -47,5 +49,22 @@ To make a succesfully payment between Alice and Caroline they use a HTLC in the 
 ![](C:/Users/HP/Desktop/preimage.png)
 - Bob uses the pre-image to finalize his payment from Alice.
 
-On this way, Alice paid 100 mBTC without establishing a new channel that would link them directly. No one of the chain participants was obliged to trust others, and they earned 0.001 BTC as a fee for their role as middlemen.
+On this way, Alice paid 100 mBTC without establishing a new channel that would link them directly. No one of the chain participants was obliged to trust others, and they earned 0.1 mBTC as a fee for their role as middlemen.
 inside the case of every body from the chain failing to perform there a part of work, nobody would have lost the cash that would honestly stay frozen until the expiration of the lock time.
+
+### Failure Test
+However, everything works fine in our example but while we talk about real life example most thing obey the process and if something goes wrong it'd move wrong. So let's understand the ```Protection mechanisms``` of the **LN**. 
+
+Certainly, the longer the chain used to deliver the funds, the higher the possibility that they would not reach the end 
+- Members close the channel. 
+- Some may lose the internet connection. 
+
+Let's imagine that the funds have successfully reached the end of the chain, but on the way back (when the secret follow backtrace) a problem has emerged when one participant was unable to cooperate or refuse. 
+In our example, it would be Bob.
+
+![](C:/Users/HP/Desktop/channelclose.png)
+Caroline, when the chain has reached her, immediately retrieves her funds, using the secret and revealing it to Rebeca. Rebeca also wishes to get her money back from Bob but he does not respond, to avoid risk she closes the channel, sending the last commitment transaction (the HTLC contract previously sent by Bob) into the blockchain and, with the help of the secret, retrieves the funds. In this case, Bob still has three days to surface and took his money from Alice (as the transaction has made it to the blockchain, he can easily find it and see the R). Otherwise, at the expiration of the lock time, she will be able to retrieve all her money.
+
+It can be seen that if a participant for some reason leaves the system, he or she is the only one who risks losing funds, while all other participants of the chain are safe.
+
+### Conclusion 
