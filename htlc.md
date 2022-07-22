@@ -73,3 +73,7 @@ Failure in funds delivery due to one of the channels closing,
 - Otherwise, at the expiration of the lock time, Alice will be able to retrieve all his money.
 
 Note : It can seem that if a participant leaves the system for some reason, he or she is the only one who risks losing funds, while all other participants of the chain are safe.
+
+
+By Goutam Verma(SoB'22 @ eclair)
+
